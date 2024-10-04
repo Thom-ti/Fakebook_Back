@@ -1,5 +1,5 @@
 require("dotenv").config();
-const prisma = require("../models/index");
+const { prisma } = require("../src/models");
 
 async function run() {
   await prisma.$executeRawUnsafe("DROP DATABASE cc18_fakebook");

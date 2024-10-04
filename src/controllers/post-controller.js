@@ -1,8 +1,17 @@
 const createError = require("../utils/createError");
+const { prisma } = require("../models");
 
-exports.getPost = async (req, res, next) => {
+exports.getAllPosts = async (req, res, next) => {
   try {
-    res.json("Get Post Controlller...");
+    const result = await prisma.post.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        user: {
+          select: { firstName: true, lastName: true, profileImage: true },
+        },
+      },
+    });
+    res.json({ posts: result });
   } catch (err) {
     next(err);
   }
@@ -10,7 +19,10 @@ exports.getPost = async (req, res, next) => {
 
 exports.createPost = async (req, res, next) => {
   try {
-    res.json("Create Post Controlller...");
+    const { message } = req.body;
+    const data = { message, userId: req.user.id };
+    const result = await prisma.post.create({ data });
+    res.json(result);
   } catch (err) {
     next(err);
   }

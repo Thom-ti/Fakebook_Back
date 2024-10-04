@@ -1,6 +1,6 @@
 const { register, login, getMe } = require("./auth-controller");
 const {
-  getPost,
+  getAllPosts,
   createPost,
   updatePost,
   deletePost,
@@ -12,7 +12,7 @@ module.exports = {
   register,
   login,
   getMe,
-  getPost,
+  getAllPosts,
   createPost,
   updatePost,
   deletePost,

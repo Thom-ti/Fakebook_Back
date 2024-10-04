@@ -31,7 +31,7 @@ exports.register = async (req, res, next) => {
 
     let identityKey = checkEmailorPhone(identity);
 
-    const findIdentity = await prisma.user.findFirst({
+    const findIdentity = await prisma.user.findUnique({
       where: { [identityKey]: identity },
     });
 
@@ -68,7 +68,7 @@ exports.login = async (req, res, next) => {
 
     let identityKey = checkEmailorPhone(identity);
 
-    const findUser = await prisma.user.findFirst({
+    const findUser = await prisma.user.findUnique({
       where: { [identityKey]: identity },
     });
 
@@ -90,7 +90,9 @@ exports.login = async (req, res, next) => {
       expiresIn: "30d",
     });
 
-    res.json({ message: "Login Successfully", token });
+    const { password: pw, createdAt, updatedAt, ...userData } = findUser;
+
+    res.json({ user: userData, token: token });
   } catch (err) {
     next(err);
   }
