@@ -29,8 +29,8 @@ exports.createPost = async (req, res, next) => {
         overwrite: true,
         public_id: path.parse(req.file.path).name,
       });
+      fs.unlink(req.file.path);
     }
-    fs.unlink(req.file.path);
     const data = {
       message,
       image: uploadResult.secure_url || "",
@@ -57,8 +57,13 @@ exports.updatePost = async (req, res, next) => {
 exports.deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const postData = await prisma.post.findUnique({ where: { id: Number(id) } });
+    if (postData.userId !== req.user.id) {
+      return createError(401, "Unauthorized");
+    }
+    const result = await prisma.post.delete({ where: { id: Number(id) } });
 
-    res.json("Delete Post Controlller...");
+    res.json(result);
   } catch (err) {
     next(err);
   }
