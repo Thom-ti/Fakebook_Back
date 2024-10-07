@@ -6,6 +6,10 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs/promises");
 
 module.exports = {
   prisma,
@@ -15,4 +19,8 @@ module.exports = {
   morgan,
   bcrypt,
   jwt,
+  multer,
+  path,
+  cloudinary,
+  fs,
 };

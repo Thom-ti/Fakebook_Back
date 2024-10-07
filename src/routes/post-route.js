@@ -1,5 +1,6 @@
 const { express } = require("../models");
 const router = express.Router();
+const { upload } = require("../middlewares");
 const {
   getAllPosts,
   createPost,
@@ -8,7 +9,7 @@ const {
 } = require("../controllers");
 
 router.get("/", getAllPosts);
-router.post("/", createPost);
+router.post("/", upload.single("image"), createPost);
 router.put("/:id", updatePost);
 router.delete("/:id", deletePost);
 
