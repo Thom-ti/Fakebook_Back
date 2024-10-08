@@ -14,7 +14,7 @@ app.use(morgan("dev"));
 app.use("/auth", authRoute);
 app.use("/post", authenticate, postRoute);
 app.use("/comment", authenticate, commentRoute);
-app.use("/like", likeRoute);
+app.use("/like", authenticate, likeRoute);
 
 app.use(errorMiddleware);
 app.use("*", notFoundHandler);

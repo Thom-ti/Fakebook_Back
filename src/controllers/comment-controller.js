@@ -5,8 +5,7 @@ exports.commentPost = async (req, res, next) => {
   try {
     const { message, postId } = req.body;
     const userId = req.user.id;
-    console.log(req.body)
-    const postData = await prisma.post.findFirst({
+    const postData = await prisma.post.findUnique({
       where: { id: Number(postId) },
     });
     if (!postData) {
