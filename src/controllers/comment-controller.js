@@ -1,10 +1,12 @@
+const { prisma } = require("../models");
 const createError = require("../utils/createError");
 
 exports.commentPost = async (req, res, next) => {
   try {
     const { message, postId } = req.body;
     const userId = req.user.id;
-    const postData = await prisma.post.findUnique({
+    console.log(req.body)
+    const postData = await prisma.post.findFirst({
       where: { id: Number(postId) },
     });
     if (!postData) {
