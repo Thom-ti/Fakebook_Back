@@ -12,7 +12,7 @@ exports.commentPost = async (req, res, next) => {
       return createError(401, "This post is not exist");
     }
     const result = await prisma.comment.create({
-      data: { message, postId, userId },
+      data: { message, postId: Number(postId), userId },
     });
 
     res.json(result);

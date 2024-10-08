@@ -12,7 +12,7 @@ exports.likePost = async (req, res, next) => {
     }
     const result = await prisma.like.create({
       data: {
-        postId,
+        postId: Number(postId),
         userId: req.user.id,
       },
     });
@@ -25,8 +25,16 @@ exports.likePost = async (req, res, next) => {
 exports.unlikePost = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const result = await prisma.like.delete({
+      where: {
+        userId_postId: {
+          postId: Number(id),
+          userId: req.user.id,
+        },
+      },
+    });
 
-    res.json("Unlike Post Controlller...");
+    res.json(result);
   } catch (err) {
     next(err);
   }
